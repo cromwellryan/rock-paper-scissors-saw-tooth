@@ -3,7 +3,11 @@
 
 <head>
   <link rel="stylesheet" href="styles.css" />
-  <script type="application/javascript" src="js/index.js"></script>
+  <script type="module">
+    import { compare } from './js/index.js';
+
+    window.compare = compare;
+  </script>
 </head>
 
 <body>
