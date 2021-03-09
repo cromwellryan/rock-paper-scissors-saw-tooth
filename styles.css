@@ -60,7 +60,7 @@ img {
 }
 @media (min-width: 400px) {
   .game-selection {
-    width: 33.33%;
+    width: 25%;
     float: left;
     margin: 0;
   }

@@ -1,7 +1,5 @@
 /* This pen was heavily influenced by codecademy's 'Rock, Paper, Scissors' project (https://bit.ly/1gEyvZE). The goal is to complete the codecademy project and modify the code you create to use the provided interface. */
-import { Rock } from './Rock.js';
-import { Paper } from './Paper.js';
-import { Scissors } from './Scissors.js';
+import { rules } from './rules/index.js';
 
 function computersTurn() {
   // Gives a random number between 0 and 1 which we will use to figure out the computer's choice
@@ -17,28 +15,29 @@ function computersTurn() {
   }
 }
 
-function createYourChoiceAsAnObject(yourChoice) {
-  let results;
-
-  if (yourChoice === new Rock().name) {
-    results = new Rock();
-  } else if (yourChoice === new Paper().name) {
-    results = new Paper();
-  } else if (yourChoice === new Scissors().name) {
-    results = new Scissors();
-  }
-
-  return results;
-}
-
 export function compare(yourChoice) {
   // Declare the variables
   const computerChoice = computersTurn();
-  const yourChoiceAsAnObject = createYourChoiceAsAnObject(yourChoice);
 
-  // Use the player's choice and computer's choice to find the winner
-  const results = yourChoiceAsAnObject.beats(computerChoice);
+  if (yourChoice === computerChoice) {
+    alert("The result is a tie!");
+    return;
+  }
 
-  // Show the results in a pop-up
-  alert(results);
+  /* Pre-empt isolated rules to run our explicit rules
+   * with a short circuit */
+  const winner = rules.find(rule => rule(yourChoice,computerChoice));
+
+  if (winner) {
+    alert(`Your ${yourChoice} wins!`);
+    return;
+  }
+
+  /* You're a loser if a rule matches where you are on the right */
+  const loser = rules.find(rule => rule(computerChoice, yourChoice));
+
+  if (loser) {
+    alert(`You lose, ${computerChoice} wins ::sad face::`);
+    return;
+  }
 }
